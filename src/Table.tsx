@@ -11,6 +11,7 @@ interface Props {
   setPressed: React.Dispatch<SetStateAction<boolean>>;
   setUpdatePressed: React.Dispatch<SetStateAction<PhoneBook | null>>;
   setDeletePressed: React.Dispatch<SetStateAction<boolean>>;
+  toggleDelete : boolean;
 }
 
 const Table: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const Table: React.FC<Props> = ({
   setPressed,
   setUpdatePressed,
   setDeletePressed,
+  toggleDelete
 }) => {
   const handleUpdate = useCallback(
     (form: PhoneBook) => {
@@ -45,18 +47,18 @@ const Table: React.FC<Props> = ({
       {data.length !== 0 ? (
         <table className="table table-pin-rows">
           <thead>
-            <tr className="bg-inherit">
-              <th className="text-center w-2/5">Name</th>
-              <th className="text-center w-2/5">Mobile</th>
+            <tr className="bg-neutral-100">
+              <th className="text-center w-2/5 text-primary-content">Name</th>
+              <th className="text-center w-2/5 text-primary-content">Mobile</th>
               <th className="text-center w-1/5"></th>
             </tr>
           </thead>
           <tbody>
             {data.map((result, key) => (
-              <tr key={key} className="hover">
-                <td className="overflow-x-scroll text-center">{result.name}</td>
-                <td className="text-center">{result.phone}</td>
-                <td className="text-center flex items-center">
+              <tr key={key}>
+                <td className="font-medium text-sm overflow-x-scroll text-center">{result.name}</td>
+                <td className="font-medium text-sm text-center">{result.phone}</td>
+                <td className="font-medium text-sm text-center flex items-center">
                   <a
                     onClick={() => handleUpdate(result)}
                     className="cursor-pointer mr-4"
@@ -94,7 +96,8 @@ const Table: React.FC<Props> = ({
                       />
                     </svg>
                   </a>
-                  <a
+                  {toggleDelete && (
+                    <a
                     className="cursor-pointer"
                     onClick={() => handleDelete(result)}
                   >
@@ -129,6 +132,7 @@ const Table: React.FC<Props> = ({
                       />
                     </svg>
                   </a>
+                  )}
                 </td>
               </tr>
             ))}

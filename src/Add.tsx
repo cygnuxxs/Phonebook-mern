@@ -44,12 +44,20 @@ const Add: React.FC<ChildProps> = ({ setPressed, updatePressed }) => {
     }).then(response => response.json()).then((data) => {
       console.log('Form is Successfully Submitted.', data)
       setSubmitted(true);
+      setFormData({
+        name : '',
+        phone : '',
+        _id : ''
+      })
       setTimeout(() => setSubmitted(false), 2000);
+    }).catch(err => {
+      console.error(err);
+      
     });
   }
 
   const handleKeypress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!/\d/.test(event.key) && event.key !== "Backspace" && event.key !== 'Enter') {
+    if (!/\d/.test(event.key) && event.key !== "Backspace" && event.key !== 'Enter' && event.key !== 'Tab') {
       event.preventDefault();
     }
   };
@@ -94,6 +102,7 @@ const Add: React.FC<ChildProps> = ({ setPressed, updatePressed }) => {
             name="name"
             onChange={handleChange}
             value={formData.name}
+            maxLength={20}
             className="rounded-3xl input input-bordered input-primary w-full my-2 bg-transparent outline-none"
             type="text"
             placeholder="Enter the Name"
@@ -106,6 +115,8 @@ const Add: React.FC<ChildProps> = ({ setPressed, updatePressed }) => {
             required
             name="phone"
             type="tel"
+            maxLength={10}
+            minLength={10}
             pattern="[0-9]*"
             className="rounded-3xl input input-bordered input-primary w-full my-2 bg-transparent outline-none"
             placeholder="Enter the Number"

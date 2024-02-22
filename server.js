@@ -59,10 +59,12 @@ app.get('/delete/:id', async (req, res) => {
 
 
 app.get('/fetchData', async (req, res) => {
-  const results = await PhoneBook.find()
-  res.status(201).json(results)
+  const results = await PhoneBook.find().sort({name : 1})
+  res.status(200).json(results)
 })
 
-ViteExpress.listen(app, port, () => {
-  console.log(`> Ready on http://localhost:${port}`)
+const server = app.listen(port, '0.0.0.0', () => {
+  console.log('Ready on http://localhost:' + port)
 })
+
+ViteExpress.bind(app, server)
